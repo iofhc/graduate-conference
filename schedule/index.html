@@ -104,6 +104,52 @@
     border-bottom: 2px solid var(--accent2);
   }
 
+  /* ── SUB-NAV (two rows: days + sessions) ── */
+  nav.sub-nav {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 52px;          /* sits just below site-nav */
+    z-index: 190;
+  }
+
+  .sub-nav-row {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    min-height: 40px;
+  }
+
+  .sub-nav-row + .sub-nav-row {
+    border-top: 1px solid var(--border);
+    min-height: 36px;
+  }
+
+  .sub-nav-row a {
+    display: block;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+    white-space: nowrap;
+    transition: color 0.15s;
+    border-bottom: 2px solid transparent;
+  }
+
+  .sub-nav-row a:hover { color: var(--text-head); text-decoration: none; }
+
+  .sub-nav-row a.active {
+    color: var(--accent2);
+    border-bottom-color: var(--accent2);
+  }
+
+  /* session-row links hidden by default; JS shows the relevant day's row */
+  .session-row { display: none; }
+  .session-row.visible { display: flex; }
+
   /* ── BREADCRUMB ── */
   .breadcrumb {
     max-width: 900px;
@@ -362,6 +408,27 @@
   </div>
 </nav>
 
+<!-- ── SUB-NAV ── -->
+<nav class="sub-nav" aria-label="Schedule navigation">
+  <!-- Row 1: Day links -->
+  <div class="sub-nav-row" id="day-row">
+    <a href="#day1" id="link-day1">Day 1 — Fri 2 Oct</a>
+    <a href="#day2" id="link-day2">Day 2 — Sat 3 Oct</a>
+  </div>
+  <!-- Row 2a: Day 1 session links -->
+  <div class="sub-nav-row session-row" id="sessions-day1">
+    <a href="#session-a1">Session A1</a>
+    <a href="#session-a2">Session A2</a>
+    <a href="#session-a3">Session A3</a>
+  </div>
+  <!-- Row 2b: Day 2 session links -->
+  <div class="sub-nav-row session-row" id="sessions-day2">
+    <a href="#session-b1">Session B1</a>
+    <a href="#session-b2">Session B2</a>
+    <a href="#session-b3">Session B3</a>
+  </div>
+</nav>
+
 <!-- ── BREADCRUMB ── -->
 <div class="breadcrumb" aria-label="Breadcrumb">
   <a href="https://iofhc.github.io/">Home</a>
@@ -375,7 +442,7 @@
   <!-- ══════════════════════════════
        DAY 1 – Friday 2 October
   ══════════════════════════════ -->
-  <h2 class="day-heading">Friday, October 2nd, 2026 — Day 1</h2>
+  <h2 class="day-heading" id="day1">Friday, October 2nd, 2026 — Day 1</h2>
 
   <h3 class="time-slot">08:00 AM – 09:00 AM</h3>
   <h3 class="event-name">Arrival, Registration &amp; Breakfast</h3>
@@ -435,12 +502,12 @@
   <!-- ══════════════════════════════
        DAY 2 – Saturday 3 October
   ══════════════════════════════ -->
-  <h2 class="day-heading">Saturday, October 3rd, 2026 — Day 2</h2>
+  <h2 class="day-heading" id="day2">Saturday, October 3rd, 2026 — Day 2</h2>
 
   <h3 class="time-slot">08:00 AM – 09:30 AM</h3>
   <h3 class="event-name">Registration &amp; Breakfast</h3>
 
-  <h3 class="time-slot">09:30 AM – 11:00 AM</h3>
+  <h3 class="time-slot" id="session-a">09:30 AM – 11:00 AM</h3>
   <h3 class="event-name">Parallel Session A:</h3>
   <p class="parallel-label">
     <span class="label">Theme A1:</span> Forest and Nature-Based Solution — Auditorium Hall<br>
@@ -451,7 +518,7 @@
   <div class="sessions-grid">
 
     <!-- A1 -->
-    <div class="session-card">
+    <div class="session-card" id="session-a1">
       <div class="session-card-head">
         <div class="session-id">Session A1</div>
         <div class="session-theme">Forest and Nature-Based Solution</div>
@@ -488,7 +555,7 @@
     </div>
 
     <!-- A2 -->
-    <div class="session-card">
+    <div class="session-card" id="session-a2">
       <div class="session-card-head">
         <div class="session-id">Session A2</div>
         <div class="session-theme">Disaster and Watershed Management</div>
@@ -525,7 +592,7 @@
     </div>
 
     <!-- A3 -->
-    <div class="session-card">
+    <div class="session-card" id="session-a3">
       <div class="session-card-head">
         <div class="session-id">Session A3</div>
         <div class="session-theme">Wildlife and Biodiversity Conservation</div>
@@ -561,7 +628,7 @@
   <h3 class="time-slot" style="margin-top:28px">11:00 AM – 11:30 AM</h3>
   <h3 class="event-name">Tea Break</h3>
 
-  <h3 class="time-slot">11:30 AM – 01:00 PM</h3>
+  <h3 class="time-slot" id="session-b">11:30 AM – 01:00 PM</h3>
   <h3 class="event-name">Parallel Session B:</h3>
   <p class="parallel-label">
     <span class="label">Theme B1:</span> Forest and Nature-Based Solution — Auditorium Hall<br>
@@ -572,7 +639,7 @@
   <div class="sessions-grid">
 
     <!-- B1 -->
-    <div class="session-card">
+    <div class="session-card" id="session-b1">
       <div class="session-card-head">
         <div class="session-id">Session B1</div>
         <div class="session-theme">Forest and Nature-Based Solution</div>
@@ -609,7 +676,7 @@
     </div>
 
     <!-- B2 -->
-    <div class="session-card">
+    <div class="session-card" id="session-b2">
       <div class="session-card-head">
         <div class="session-id">Session B2</div>
         <div class="session-theme">Forest and Nature-Based Solution</div>
@@ -641,7 +708,7 @@
     </div>
 
     <!-- B3 -->
-    <div class="session-card">
+    <div class="session-card" id="session-b3">
       <div class="session-card-head">
         <div class="session-id">Session B3</div>
         <div class="session-theme">Wildlife and Biodiversity Conservation</div>
@@ -699,5 +766,86 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  // The sub-nav is two rows tall (≈88px) plus site-nav (52px) = ~140px offset for scroll-spy
+  const OFFSET = 150;
+
+  const linkDay1      = document.getElementById('link-day1');
+  const linkDay2      = document.getElementById('link-day2');
+  const rowDay1       = document.getElementById('sessions-day1');
+  const rowDay2       = document.getElementById('sessions-day2');
+
+  const secDay1  = document.getElementById('day1');
+  const secDay2  = document.getElementById('day2');
+  const secA     = document.getElementById('session-a');   // Parallel A time heading
+  const secB     = document.getElementById('session-b');   // Parallel B time heading
+
+  // All session-row links for highlighting
+  const sessionLinks = {
+    'session-a1': rowDay1.querySelector('a[href="#session-a1"]'),
+    'session-a2': rowDay1.querySelector('a[href="#session-a2"]'),
+    'session-a3': rowDay1.querySelector('a[href="#session-a3"]'),
+    'session-b1': rowDay2.querySelector('a[href="#session-b1"]'),
+    'session-b2': rowDay2.querySelector('a[href="#session-b2"]'),
+    'session-b3': rowDay2.querySelector('a[href="#session-b3"]'),
+  };
+
+  // Session cards for scroll-spy
+  const cards = ['session-a1','session-a2','session-a3','session-b1','session-b2','session-b3']
+    .map(id => document.getElementById(id));
+
+  function top(el) {
+    return el.getBoundingClientRect().top + window.scrollY;
+  }
+
+  function update() {
+    const scrollY = window.scrollY + OFFSET;
+
+    // ── Which day are we in? ──
+    const inDay2 = top(secDay2) <= scrollY;
+
+    linkDay1.classList.toggle('active', !inDay2);
+    linkDay2.classList.toggle('active',  inDay2);
+
+    // Show / hide session rows
+    rowDay1.classList.toggle('visible', !inDay2);
+    rowDay2.classList.toggle('visible',  inDay2);
+
+    // ── Which session card is closest above viewport? ──
+    // Only highlight when we are actually in the parallel-session zone
+    const inParallelA = !inDay2 && top(secA) <= scrollY;
+    const inParallelB =  inDay2 && top(secB) <= scrollY;
+
+    Object.values(sessionLinks).forEach(a => a.classList.remove('active'));
+
+    if (inParallelA || inParallelB) {
+      // Find the card whose top is ≤ scrollY, pick the last (lowest) one
+      let active = null;
+      cards.forEach(card => {
+        if (card && top(card) <= scrollY) active = card;
+      });
+      if (active && sessionLinks[active.id]) {
+        sessionLinks[active.id].classList.add('active');
+      }
+    }
+  }
+
+  // Smooth-scroll with offset when sub-nav links are clicked
+  document.querySelectorAll('.sub-nav-row a').forEach(a => {
+    a.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      const navHeight = document.querySelector('nav.site-nav').offsetHeight
+                      + document.querySelector('nav.sub-nav').offsetHeight;
+      window.scrollTo({ top: top(target) - navHeight - 8, behavior: 'smooth' });
+    });
+  });
+
+  window.addEventListener('scroll', update, { passive: true });
+  update(); // run once on load
+})();
+</script>
 </body>
 </html>
