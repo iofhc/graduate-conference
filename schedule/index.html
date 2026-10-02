@@ -46,9 +46,7 @@
   a { color: var(--link); text-decoration: none; }
   a:hover { text-decoration: underline; }
 
-  /* ── NAV ── */
-  #top {}
-
+  /* ── SITE NAV (top, sticky) ── */
   nav.site-nav {
     background: var(--bg-nav);
     border-bottom: 1px solid var(--border);
@@ -65,7 +63,6 @@
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 0;
     min-height: 52px;
   }
 
@@ -76,16 +73,13 @@
     white-space: nowrap;
     padding: 10px 0;
   }
-
   .nav-brand:hover { text-decoration: none; color: var(--accent2); }
 
   .nav-links {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 0;
   }
-
   .nav-links li a {
     display: block;
     padding: 14px 14px;
@@ -93,62 +87,90 @@
     color: var(--text-dim);
     transition: color 0.15s;
   }
-
-  .nav-links li a:hover,
+  .nav-links li a:hover { color: var(--text-head); text-decoration: none; }
   .nav-links li a.active {
     color: var(--text-head);
-    text-decoration: none;
-  }
-
-  .nav-links li a.active {
     border-bottom: 2px solid var(--accent2);
   }
 
-  /* ── SUB-NAV (two rows: days + sessions) ── */
-  nav.sub-nav {
+  /* ── DAY SUB-NAV (sticky, below site-nav) ── */
+  nav.day-nav {
     background: var(--bg-card);
     border-bottom: 1px solid var(--border);
     position: sticky;
-    top: 52px;          /* sits just below site-nav */
+    top: 52px;
     z-index: 190;
   }
 
-  .sub-nav-row {
+  .day-nav-inner {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 0;
     min-height: 40px;
   }
 
-  .sub-nav-row + .sub-nav-row {
-    border-top: 1px solid var(--border);
-    min-height: 36px;
-  }
-
-  .sub-nav-row a {
+  .day-nav-inner a {
     display: block;
-    padding: 8px 14px;
+    padding: 8px 16px;
     font-size: 13px;
+    font-weight: 600;
     color: var(--text-dim);
     white-space: nowrap;
-    transition: color 0.15s;
     border-bottom: 2px solid transparent;
+    transition: color 0.15s;
+  }
+  .day-nav-inner a:hover  { color: var(--text-head); text-decoration: none; }
+  .day-nav-inner a.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+  /* ── INLINE SESSION TAB BAR (inside main content, not sticky) ── */
+  .session-tabs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    background: var(--bg-nav);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 16px 0 20px;
   }
 
-  .sub-nav-row a:hover { color: var(--text-head); text-decoration: none; }
-
-  .sub-nav-row a.active {
-    color: var(--accent2);
-    border-bottom-color: var(--accent2);
+  .session-tabs .tab-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 8px;
+    white-space: nowrap;
   }
 
-  /* session-row links hidden by default; JS shows the relevant day's row */
-  .session-row { display: none; }
-  .session-row.visible { display: flex; }
+  .session-tabs a {
+    display: inline-block;
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+  }
+  .session-tabs a:hover {
+    color: var(--text-head);
+    background: var(--border);
+    text-decoration: none;
+  }
+
+  .session-tabs .tab-divider {
+    color: var(--border);
+    font-size: 18px;
+    padding: 0 4px;
+    user-select: none;
+  }
 
   /* ── BREADCRUMB ── */
   .breadcrumb {
@@ -158,10 +180,9 @@
     font-size: 14px;
     color: var(--text-dim);
   }
-
   .breadcrumb a { color: var(--link); }
 
-  /* ── MAIN CONTENT ── */
+  /* ── MAIN ── */
   main {
     max-width: 900px;
     margin: 0 auto;
@@ -170,7 +191,6 @@
     width: 100%;
   }
 
-  /* Page title */
   h1.page-title {
     font-size: 2rem;
     font-weight: 700;
@@ -185,7 +205,6 @@
     margin-bottom: 36px;
   }
 
-  /* Day headings */
   h2.day-heading {
     font-size: 1.25rem;
     font-weight: 700;
@@ -195,7 +214,6 @@
     border-bottom: 1px solid var(--border);
   }
 
-  /* Time slot heading */
   h3.time-slot {
     font-size: 0.85rem;
     font-weight: 600;
@@ -204,7 +222,6 @@
     letter-spacing: 0.02em;
   }
 
-  /* Event heading */
   h3.event-name {
     font-size: 1.05rem;
     font-weight: 700;
@@ -213,7 +230,6 @@
     line-height: 1.4;
   }
 
-  /* Code-style label */
   .label {
     display: inline-block;
     background: var(--code-bg);
@@ -226,23 +242,18 @@
     margin-right: 4px;
   }
 
-  /* Speaker / chair detail lines */
   .detail-line {
     margin: 4px 0;
     font-size: 15px;
     color: var(--text);
   }
 
-  .detail-line a { color: var(--link); }
-
-  /* Horizontal rule separating days */
   hr.day-rule {
     border: none;
     border-top: 1px solid var(--border);
     margin: 48px 0 0;
   }
 
-  /* Parallel sessions grid */
   .parallel-label {
     font-size: 14px;
     color: var(--text-dim);
@@ -287,10 +298,7 @@
     margin-bottom: 3px;
   }
 
-  .session-venue {
-    font-size: 12px;
-    color: var(--text-dim);
-  }
+  .session-venue { font-size: 12px; color: var(--text-dim); }
 
   .session-chair {
     font-size: 12px;
@@ -308,7 +316,6 @@
     padding: 7px 0;
     border-bottom: 1px solid var(--border);
   }
-
   .pres-list li:last-child { border-bottom: none; }
 
   .pres-num {
@@ -332,7 +339,6 @@
     font-style: italic;
   }
 
-  /* tag-style badges */
   .tag {
     display: inline-block;
     background: var(--code-bg);
@@ -350,98 +356,19 @@
     border-top: 1px solid var(--border);
     padding: 20px;
     text-align: center;
-    font-size: 13px;
-    color: var(--text-dim);
-  }
-
-  footer a { color: var(--link); }
-
-  .footer-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-  }
-
-  .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    justify-content: center;
-  }
-
-  .back-top {
-    display: block;
-    margin-top: 6px;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 700px) {
-    .sessions-grid { grid-template-columns: 1fr; }
-    .nav-links li a { padding: 10px 10px; font-size: 13px; }
-    h1.page-title { font-size: 1.5rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; scroll-behavior: auto !important; }
-  }
-</style>
-</head>
-<body id="top">
-
-<!-- ── NAVIGATION ── -->
-<nav class="site-nav" aria-label="Site navigation">
-  <div class="nav-inner">
-    <a href="https://iofhc.github.io/" class="nav-brand" title="IoF Graduate Conference (Alt + H)" accesskey="h">IoF Graduate Conference</a>
-    <ul class="nav-links">
-      <li><a href="https://iofhc.github.io/call/">Call</a></li>
-      <li><a href="https://iofhc.github.io/schedule/" class="active">Schedule</a></li>
-      <li><a href="https://iofhc.github.io/speakers/">Speakers</a></li>
-      <li><a href="https://iofhc.github.io/committee/">Committee</a></li>
-      <li><a href="https://iofhc.github.io/venue/">Venue</a></li>
-      <li><a href="https://iofhc.github.io/contact/">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<!-- ── SUB-NAV ── -->
-<nav class="sub-nav" aria-label="Schedule navigation">
-  <!-- Row 1: Day links -->
-  <div class="sub-nav-row" id="day-row">
-    <a href="#day1" id="link-day1">Day 1 — Fri 2 Oct</a>
-    <a href="#day2" id="link-day2">Day 2 — Sat 3 Oct</a>
-  </div>
-  <!-- Row 2a: Day 1 session links -->
-  <div class="sub-nav-row session-row" id="sessions-day1">
-    <a href="#session-a1">Session A1</a>
-    <a href="#session-a2">Session A2</a>
-    <a href="#session-a3">Session A3</a>
-  </div>
-  <!-- Row 2b: Day 2 session links -->
-  <div class="sub-nav-row session-row" id="sessions-day2">
-    <a href="#session-b1">Session B1</a>
-    <a href="#session-b2">Session B2</a>
-    <a href="#session-b3">Session B3</a>
-  </div>
 </nav>
 
 <!-- ── BREADCRUMB ── -->
-<div class="breadcrumb" aria-label="Breadcrumb">
-  <a href="https://iofhc.github.io/">Home</a>
-</div>
+<div class="breadcrumb"><a href="https://iofhc.github.io/">Home</a></div>
 
 <!-- ── MAIN ── -->
 <main>
   <h1 class="page-title">Schedule</h1>
   <p class="page-subtitle">For IoF Graduate Conference</p>
 
-  <!-- ══════════════════════════════
-       DAY 1 – Friday 2 October
-  ══════════════════════════════ -->
+  <!-- ════════════════════════════
+       DAY 1
+  ════════════════════════════ -->
   <h2 class="day-heading" id="day1">Friday, October 2nd, 2026 — Day 1</h2>
 
   <h3 class="time-slot">08:00 AM – 09:00 AM</h3>
@@ -456,74 +383,15 @@
   <h3 class="time-slot">10:45 AM – 11:45 AM</h3>
   <h3 class="event-name">Keynote: Beyond Trees, Beyond Degrees: Toward Forestry Leadership</h3>
   <p class="detail-line"><span class="label">Speaker:</span> Prof. Rajesh Kumar Rai, PhD — Institute of Forestry, Tribhuvan University, Nepal</p>
-  <p class="detail-line"><span class="label">Chair:</span> Kedar Baral, PhD — Province Secretary, Ministry of Agriculture, Livestock, Forests &amp; Environment, Government of Bagmati Province, Hetauda, Nepal</p>
+  <p class="detail-line"><span class="label">Chair:</span> Kedar Baral, PhD — Province Secretary, Ministry of Agriculture, Livestock, Forests &amp; Environment, Government of Bagmati Province</p>
 
   <h3 class="time-slot">11:45 AM – 12:00 PM</h3>
   <h3 class="event-name">Tea Break</h3>
 
-  <h3 class="time-slot">12:00 PM – 13:15 PM</h3>
+  <h3 class="time-slot">12:00 PM – 01:15 PM</h3>
   <h3 class="event-name">Invited Presentations</h3>
   <p class="detail-line"><span class="label">Chair:</span> Prof. Rajesh Kumar Rai, PhD — Institute of Forestry, Tribhuvan University, Nepal</p>
 
-  <p class="detail-line" style="margin-top:12px"><span class="label">12:00 – 12:15</span> Human-Wildlife Conflict Outside the Protected Area<br>
-  <small style="color:var(--text-dim); padding-left:4px">Kedar Baral, PhD — Province Secretary, Ministry of Agriculture, Livestock, Forests &amp; Environment, Bagmati Province</small></p>
-
-  <p class="detail-line"><span class="label">12:15 – 12:30</span> Nature-Based Solutions for Climate-Resilient Watersheds: Lessons from Restoration and Community Action in the Khageri-Gindri and Narayani River Basins, Nepal<br>
-  <small style="color:var(--text-dim); padding-left:4px">Karun Dewan — Program Officer, Freshwater, WWF Nepal</small></p>
-
-  <p class="detail-line"><span class="label">12:30 – 12:45</span> Beyond Graduation: Lessons, Expectations and Pathways for Young Forestry Professionals<br>
-  <small style="color:var(--text-dim); padding-left:4px">Bishnu Prasad Acharya — Divisional Forest Officer, Division Forest Office, Chitwan</small></p>
-
-  <p class="detail-line"><span class="label">12:45 – 13:00</span> Integrating Forest, Watershed Resilience and Biodiversity Conservation through Locally Led Action: Lessons from the Mutanikhola Watershed, Nepal<br>
-  <small style="color:var(--text-dim); padding-left:4px">Jagdish Prasad Bhatta — Program Manager, CARE Nepal</small></p>
-
-  <p class="detail-line"><span class="label">13:00 – 13:15</span> Why We Need More Fire: A Forest Fire Management Perspective from the United States<br>
-  <small style="color:var(--text-dim); padding-left:4px">Scott G. Culbert — Peace Corps</small></p>
-
-  <h3 class="time-slot">01:15 PM – 02:00 PM</h3>
-  <h3 class="event-name">Lunch Break</h3>
-
-  <h3 class="time-slot">02:00 PM – 03:00 PM</h3>
-  <h3 class="event-name">Graduation Ceremony</h3>
-  <p class="detail-line"><span class="label">Batch:</span> BSc 2079–2083</p>
-
-  <h3 class="time-slot">03:00 PM – 03:30 PM</h3>
-  <h3 class="event-name">Tea Break</h3>
-
-  <h3 class="time-slot">03:30 PM – 04:30 PM</h3>
-  <h3 class="event-name">Alumni Meet — IOF Hetauda</h3>
-  <p class="detail-line"><span class="tag">Informal</span></p>
-
-  <h3 class="time-slot">04:30 PM – 05:00 PM</h3>
-  <h3 class="event-name">Hi Tea</h3>
-
-  <hr class="day-rule">
-
-  <!-- ══════════════════════════════
-       DAY 2 – Saturday 3 October
-  ══════════════════════════════ -->
-  <h2 class="day-heading" id="day2">Saturday, October 3rd, 2026 — Day 2</h2>
-
-  <h3 class="time-slot">08:00 AM – 09:30 AM</h3>
-  <h3 class="event-name">Registration &amp; Breakfast</h3>
-
-  <h3 class="time-slot" id="session-a">09:30 AM – 11:00 AM</h3>
-  <h3 class="event-name">Parallel Session A:</h3>
-  <p class="parallel-label">
-    <span class="label">Theme A1:</span> Forest and Nature-Based Solution — Auditorium Hall<br>
-    <span class="label">Theme A2:</span> Disaster and Watershed Management — Seminar Hall I<br>
-    <span class="label">Theme A3:</span> Wildlife and Biodiversity Conservation — Seminar Hall II
-  </p>
-
-  <div class="sessions-grid">
-
-    <!-- A1 -->
-    <div class="session-card" id="session-a1">
-      <div class="session-card-head">
-        <div class="session-id">Session A1</div>
-        <div class="session-theme">Forest and Nature-Based Solution</div>
-        <div class="session-venue">Auditorium Hall</div>
-      </div>
       <div class="session-chair">Chair: Mr. Tank Narayan Shrestha</div>
       <ul class="pres-list">
         <li>
@@ -554,49 +422,11 @@
       </ul>
     </div>
 
-    <!-- A2 -->
     <div class="session-card" id="session-a2">
       <div class="session-card-head">
         <div class="session-id">Session A2</div>
         <div class="session-theme">Disaster and Watershed Management</div>
         <div class="session-venue">Seminar Hall I</div>
-      </div>
-      <div class="session-chair">Chair: Dr. Bikram Manandhar</div>
-      <ul class="pres-list">
-        <li>
-          <div class="pres-num">01</div>
-          <div class="pres-title">Harnessing Indigenous Knowledge for Climate-Resilient Water Management: A Case Study in Ghyanglekh Rural Municipality, Sindhuli</div>
-          <div class="pres-author">Kriti Mahato</div>
-        </li>
-        <li>
-          <div class="pres-num">02</div>
-          <div class="pres-title">Flood Hazard Assessment and Critical Infrastructure Exposure Mapping in the Tinau River Basin Using HEC-RAS 2D Hydraulic Modelling</div>
-          <div class="pres-author">Koshish Gyawali</div>
-        </li>
-        <li>
-          <div class="pres-num">03</div>
-          <div class="pres-title">Using Direct Payments for Recovery after Natural Disasters: A Case Study in Jamaica</div>
-          <div class="pres-author">Joel Matheson</div>
-        </li>
-        <li>
-          <div class="pres-num">04</div>
-          <div class="pres-title">Sub-Watershed Prioritization Using Morphometric Analysis and Integrated AHP-VIKOR: A Case Study from Rolpa District</div>
-          <div class="pres-author">Nisha Thapa</div>
-        </li>
-        <li>
-          <div class="pres-num">05</div>
-          <div class="pres-title">Assessment of Soil Erosion and Sediment Yield in the Banganga Watershed of Nepal</div>
-          <div class="pres-author">Hriddhik Khatiwada</div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- A3 -->
-    <div class="session-card" id="session-a3">
-      <div class="session-card-head">
-        <div class="session-id">Session A3</div>
-        <div class="session-theme">Wildlife and Biodiversity Conservation</div>
-        <div class="session-venue">Seminar Hall II</div>
       </div>
       <div class="session-chair">Chair: Mr. Prachanda Maharjan</div>
       <ul class="pres-list">
@@ -628,223 +458,41 @@
   <h3 class="time-slot" style="margin-top:28px">11:00 AM – 11:30 AM</h3>
   <h3 class="event-name">Tea Break</h3>
 
-  <h3 class="time-slot" id="session-b">11:30 AM – 01:00 PM</h3>
+  <h3 class="time-slot">11:30 AM – 01:00 PM</h3>
   <h3 class="event-name">Parallel Session B:</h3>
   <p class="parallel-label">
-    <span class="label">Theme B1:</span> Forest and Nature-Based Solution — Auditorium Hall<br>
-    <span class="label">Theme B2:</span> Forest and Nature-Based Solution — Seminar Hall I<br>
-    <span class="label">Theme B3:</span> Wildlife and Biodiversity Conservation — Seminar Hall II
-  </p>
+    <span class="label">B1:</span> Forest and Nature-Based Solution — Auditorium Hall&nbsp;&nbsp;
+    <span class="label">B2:</span> Forest and Nature-Based Solution — Seminar Hall I&nbsp;&nbsp;
+    <span class="label">B3:</span> Wildlife and Biodiversity Conservation — Seminar Hall II
+  var linkDay1 = document.getElementById('link-day1');
+  var linkDay2 = document.getElementById('link-day2');
+  var day2el   = document.getElementById('day2');
 
-  <div class="sessions-grid">
-
-    <!-- B1 -->
-    <div class="session-card" id="session-b1">
-      <div class="session-card-head">
-        <div class="session-id">Session B1</div>
-        <div class="session-theme">Forest and Nature-Based Solution</div>
-        <div class="session-venue">Auditorium Hall</div>
-      </div>
-      <div class="session-chair">Chair: Mr. Bishnu Prasad Acharya</div>
-      <ul class="pres-list">
-        <li>
-          <div class="pres-num">01</div>
-          <div class="pres-title">Forest Fire Hazard Mapping and Assessment of Impact of Forest Fire on Floral Diversity of Rapti Sonari Rural Municipality, Banke District</div>
-          <div class="pres-author">Suruchi Mainali</div>
-        </li>
-        <li>
-          <div class="pres-num">02</div>
-          <div class="pres-title">Comparative Estimation of Carbon Stock in Sadabahar and Shanti Community Forests, Ghodaghodi Municipality 1–5, Kailali District</div>
-          <div class="pres-author">Kusal Thapa</div>
-        </li>
-        <li>
-          <div class="pres-num">03</div>
-          <div class="pres-title">Assessment of Regeneration Status, Stand Structure, and Carbon Stock of <em>Magnolia champaca</em>-Dominated Forest in Gulmi, Nepal</div>
-          <div class="pres-author">Dipesh Chand</div>
-        </li>
-        <li>
-          <div class="pres-num">04</div>
-          <div class="pres-title">Modeling and Estimation of Above-Ground Biomass and Carbon Stock of <em>Shorea robusta</em>-Dominated Forest Using Sentinel-2 Imagery in the Terai Plain: Rangapur Collaborative Forest, Rautahat District</div>
-          <div class="pres-author">Punit Yadav</div>
-        </li>
-        <li>
-          <div class="pres-num">05</div>
-          <div class="pres-title">Assessment of Agroforestry Practices and Their Contribution to Household Livelihood: A Case Study of Hetauda Sub-Metropolitan City</div>
-          <div class="pres-author">Sugam Bhusal Chhetri</div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- B2 -->
-    <div class="session-card" id="session-b2">
-      <div class="session-card-head">
-        <div class="session-id">Session B2</div>
-        <div class="session-theme">Forest and Nature-Based Solution</div>
-        <div class="session-venue">Seminar Hall I</div>
-      </div>
-      <div class="session-chair">Chair: TBD</div>
-      <ul class="pres-list">
-        <li>
-          <div class="pres-num">01</div>
-          <div class="pres-title">Comparative Assessment of Carbon Stock in Two Different Community Forests in Dang District, Lumbini Province</div>
-          <div class="pres-author">Rebika Gurung</div>
-        </li>
-        <li>
-          <div class="pres-num">02</div>
-          <div class="pres-title">Assessment of Aboveground Biomass and Carbon Stock in a Community Forest of the Chure Region, Kailali District</div>
-          <div class="pres-author">Lavdev Awasthi</div>
-        </li>
-        <li>
-          <div class="pres-num">03</div>
-          <div class="pres-title">Exploring Ecotourism Status &amp; Socio-Economic Dynamics: Evidence from Sahid Smarak (Martyrs Memorial Park), Hetauda, Makawanpur</div>
-          <div class="pres-author">Ramesh Sing Bohara</div>
-        </li>
-        <li>
-          <div class="pres-num">04</div>
-          <div class="pres-title">Regeneration in Temperate Forest After Forest Fire: A Case Study from Gatlang Community Forest</div>
-          <div class="pres-author">Erisa Tamrakar</div>
-        </li>
-      </ul>
-    </div>
-
-    <!-- B3 -->
-    <div class="session-card" id="session-b3">
-      <div class="session-card-head">
-        <div class="session-id">Session B3</div>
-        <div class="session-theme">Wildlife and Biodiversity Conservation</div>
-        <div class="session-venue">Seminar Hall II</div>
-      </div>
-      <div class="session-chair">Chair: Dr. Ashok Ram</div>
-      <ul class="pres-list">
-        <li>
-          <div class="pres-num">01</div>
-          <div class="pres-title">Gender Equality and Social Inclusion Analysis and Forms of Gender-Based Violence for Effective Conservation in the Buffer Zone of the Banke-Bardia Complex</div>
-          <div class="pres-author">Susmita Satyal</div>
-        </li>
-        <li>
-          <div class="pres-num">02</div>
-          <div class="pres-title">Habitat Use of Mesopredator in and Around Shuklaphanta National Park</div>
-          <div class="pres-author">Ritshab Aryal</div>
-        </li>
-        <li>
-          <div class="pres-num">03</div>
-          <div class="pres-title">Assessment of the Distribution and Impacts of Invasive Alien Plant Species on Aquatic Biodiversity</div>
-          <div class="pres-author">Suja Ranabhat</div>
-        </li>
-        <li>
-          <div class="pres-num">04</div>
-          <div class="pres-title">Study of Human-Leopard (<em>Panthera pardus</em>) Conflict in Arjunchaupari Rural Municipality, Syangja District, Central Nepal</div>
-          <div class="pres-author">Krishna Prasad Devkota</div>
-        </li>
-      </ul>
-    </div>
-
-  </div><!-- /sessions-grid B -->
-
-  <h3 class="time-slot" style="margin-top:28px">01:00 PM – 02:00 PM</h3>
-  <h3 class="event-name">Lunch Break</h3>
-
-  <h3 class="time-slot">02:00 PM – 03:00 PM</h3>
-  <h3 class="event-name">Closing Ceremony</h3>
-
-  <h3 class="time-slot">03:00 PM – 03:30 PM</h3>
-  <h3 class="event-name">Hi Tea</h3>
-
-</main>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-inner">
-    <div>© <a href="https://hc.tu.edu.np/">Hetauda Campus (Forestry)</a></div>
-    <div class="footer-links">
-      <a href="https://www.tiktok.com/@iof_graduate_conf" title="TikTok Channel">TikTok</a>
-      <a href="mailto:conference.iofhetauda@gmail.com" title="Email Us">conference.iofhetauda@gmail.com</a>
-      <a href="https://www.facebook.com/profile.php?id=61594000415072" title="Facebook Page">Facebook</a>
-      <a href="https://sanjeeb.name.np/" title="Website site courtesy: Sanjeeb Bhattarai">Website courtesy: Sanjeeb Bhattarai</a>
-    </div>
-    <a href="#top" class="back-top" title="Go to Top (Alt + G)" accesskey="g">#top ↑</a>
-  </div>
-</footer>
-
-<script>
-(function () {
-  // The sub-nav is two rows tall (≈88px) plus site-nav (52px) = ~140px offset for scroll-spy
-  const OFFSET = 150;
-
-  const linkDay1      = document.getElementById('link-day1');
-  const linkDay2      = document.getElementById('link-day2');
-  const rowDay1       = document.getElementById('sessions-day1');
-  const rowDay2       = document.getElementById('sessions-day2');
-
-  const secDay1  = document.getElementById('day1');
-  const secDay2  = document.getElementById('day2');
-  const secA     = document.getElementById('session-a');   // Parallel A time heading
-  const secB     = document.getElementById('session-b');   // Parallel B time heading
-
-  // All session-row links for highlighting
-  const sessionLinks = {
-    'session-a1': rowDay1.querySelector('a[href="#session-a1"]'),
-    'session-a2': rowDay1.querySelector('a[href="#session-a2"]'),
-    'session-a3': rowDay1.querySelector('a[href="#session-a3"]'),
-    'session-b1': rowDay2.querySelector('a[href="#session-b1"]'),
-    'session-b2': rowDay2.querySelector('a[href="#session-b2"]'),
-    'session-b3': rowDay2.querySelector('a[href="#session-b3"]'),
-  };
-
-  // Session cards for scroll-spy
-  const cards = ['session-a1','session-a2','session-a3','session-b1','session-b2','session-b3']
-    .map(id => document.getElementById(id));
-
-  function top(el) {
-    return el.getBoundingClientRect().top + window.scrollY;
+  function siteNavH() {
+    return document.querySelector('nav.site-nav').offsetHeight +
+           document.querySelector('nav.day-nav').offsetHeight;
   }
 
   function update() {
-    const scrollY = window.scrollY + OFFSET;
-
-    // ── Which day are we in? ──
-    const inDay2 = top(secDay2) <= scrollY;
-
+    var day2top = day2el.getBoundingClientRect().top;
+    var inDay2  = day2top <= 10;
     linkDay1.classList.toggle('active', !inDay2);
     linkDay2.classList.toggle('active',  inDay2);
-
-    // Show / hide session rows
-    rowDay1.classList.toggle('visible', !inDay2);
-    rowDay2.classList.toggle('visible',  inDay2);
-
-    // ── Which session card is closest above viewport? ──
-    // Only highlight when we are actually in the parallel-session zone
-    const inParallelA = !inDay2 && top(secA) <= scrollY;
-    const inParallelB =  inDay2 && top(secB) <= scrollY;
-
-    Object.values(sessionLinks).forEach(a => a.classList.remove('active'));
-
-    if (inParallelA || inParallelB) {
-      // Find the card whose top is ≤ scrollY, pick the last (lowest) one
-      let active = null;
-      cards.forEach(card => {
-        if (card && top(card) <= scrollY) active = card;
-      });
-      if (active && sessionLinks[active.id]) {
-        sessionLinks[active.id].classList.add('active');
-      }
-    }
   }
 
-  // Smooth-scroll with offset when sub-nav links are clicked
-  document.querySelectorAll('.sub-nav-row a').forEach(a => {
-    a.addEventListener('click', function (e) {
-      const target = document.querySelector(this.getAttribute('href'));
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+
+  // Smooth scroll with offset for both sticky bars
+  document.querySelectorAll('nav.day-nav a, nav.session-tabs a').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var target = document.querySelector(this.getAttribute('href'));
       if (!target) return;
       e.preventDefault();
-      const navHeight = document.querySelector('nav.site-nav').offsetHeight
-                      + document.querySelector('nav.sub-nav').offsetHeight;
-      window.scrollTo({ top: top(target) - navHeight - 8, behavior: 'smooth' });
+      var top = target.getBoundingClientRect().top + window.scrollY - siteNavH() - 8;
+      window.scrollTo({ top: top, behavior: 'smooth' });
     });
   });
-
-  window.addEventListener('scroll', update, { passive: true });
-  update(); // run once on load
 })();
 </script>
 </body>
